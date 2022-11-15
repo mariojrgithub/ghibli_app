@@ -13,6 +13,7 @@ const HomePage = () => {
   const [peopleModalData, setPeopleModalData] = useState([]);
   const [title, setTitle] = useState("");
   const [locations, setLocations] = useState([]);
+  const [species, setSpecies] = useState([]);
 
   useEffect(() => {
     const baseUrl = "https://ghibliapi.herokuapp.com/";
@@ -39,6 +40,17 @@ const HomePage = () => {
   }, [films]);
 
   useEffect(() => {
+    const baseUrl = "https://ghibliapi.herokuapp.com/";
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    axios.get(baseUrl + "species", config).then((res) => setSpecies(res.data));
+  }, [films]);
+
+  useEffect(() => {
     setPeopleModalData([]);
     const config = {
       headers: {
@@ -58,19 +70,20 @@ const HomePage = () => {
     }, 500);
   }, [people]);
 
-  console.log(films);
-  console.log(locations);
+  const locFilms = [];
+  films.forEach((x) => {
+    locFilms.push({ title: x.title, locs: [], url: x.url });
+  });
 
-  // locations.forEach((loc) => {
-  //   loc.films.forEach((film) => {
-  //     const locFilms = [];
-  //     films.forEach((item) => {
-  //       if (film === item.url) {
-  //         locFilms.push(item.title);
-  //       }
-  //     });
-  //   });
-  // });
+  locFilms.forEach((i) => {
+    locations.forEach((loc) => {
+      loc.films.forEach((x) => {
+        if (i.url === x) {
+          i.locs.push(loc.name);
+        }
+      });
+    });
+  });
 
   return (
     <div>
@@ -99,7 +112,7 @@ const HomePage = () => {
         })}
       </div>
       <FilmModal data={filmModalData} />
-      <PeopleModal data={peopleModalData} title={title} />
+      <PeopleModal species={species} data={peopleModalData} title={title} />
     </div>
   );
 };

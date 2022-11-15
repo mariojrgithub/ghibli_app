@@ -1,7 +1,15 @@
 import React from "react";
 
-const PeopleModal = ({ data, title }) => {
-  console.log(data);
+const PeopleModal = ({ species, data, title }) => {
+  data.forEach((person) => {
+    species.forEach((specie) => {
+      const specId = person.species.split("/");
+      if (specId[specId.length - 1] === specie.id) {
+        person.specie = specie.name;
+      }
+    });
+  });
+
   return (
     <div
       class="modal fade"
@@ -87,6 +95,15 @@ const PeopleModal = ({ data, title }) => {
                     >
                       Hair Color
                     </th>
+                    <th
+                      style={{
+                        borderBottom: "1px solid #ddd",
+                        padding: "15px",
+                        textAlign: "left",
+                      }}
+                    >
+                      Specie
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -142,6 +159,16 @@ const PeopleModal = ({ data, title }) => {
                           }}
                         >
                           {item.hair_color}
+                        </td>
+                        <td
+                          key={index}
+                          style={{
+                            borderBottom: "1px solid #ddd",
+                            padding: "15px",
+                            textAlign: "left",
+                          }}
+                        >
+                          {item.specie}
                         </td>
                       </tr>
                     );

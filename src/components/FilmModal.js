@@ -30,7 +30,7 @@ const FilmModal = ({ data }) => {
           <div class="modal-body">
             <ul class="list-group list-group-vertical-lg">
               <li class="list-group-item d-flex justify-content-between align-items-center">
-                Orignal Title:
+                Original Title:
                 <span
                   class="badge bg-primary rounded-pill"
                   style={{ fontSize: "1em" }}
